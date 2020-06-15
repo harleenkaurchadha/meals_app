@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:meals_app/categories_screen.dart';
+import './categories_screen.dart';
+import './category_meals_screen.dart';
 
 void main()
 {
@@ -33,7 +34,12 @@ class MyApp extends StatelessWidget{
           ),
         ),
       ),
-      home: CategoriesScreen(),
+      initialRoute: '/',   // to make sure by default is home route
+//      home: CategoriesScreen(),
+      routes: {                   //list of all available page routing for lean code
+        '/' : (ctx) => CategoriesScreen(),
+        CategoryMealsScreen.routeName : (ctx) => CategoryMealsScreen(),             //screen : creation function for that screen
+      },
     );
   }
 }
@@ -52,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage>{
         title: const Text('DeliMeals'),
       ),
       body: CategoriesScreen(),
-      );
+     );
 
   }
 }
