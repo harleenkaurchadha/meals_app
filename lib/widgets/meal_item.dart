@@ -9,6 +9,7 @@ class MealItem extends StatelessWidget{
   final Affordability affordability;
   final int duration;
   final Complexity complexity;
+  final Function removeItem;
 
   MealItem({
     @required this.id,
@@ -17,6 +18,7 @@ class MealItem extends StatelessWidget{
     @required this.affordability,
     @required this.duration,
     @required this.complexity,
+    @required this.removeItem,
   });
 
   String get complexityText{                  //to return enum text
@@ -51,7 +53,15 @@ class MealItem extends StatelessWidget{
   }
 
   void selectMeal(BuildContext context){
-   Navigator.of(context).pushNamed(MealDetailScreen.routeName, arguments: id,);
+   Navigator.of(context).pushNamed(
+     MealDetailScreen.routeName,
+     arguments: id,
+   ) .then((result) {
+     if(result!= null)
+       {
+          removeItem(result);             // we got id for item to be deleted temporarily
+       }
+   });    // on completion of displaying mealDetailScreen & popping
   }
 
   @override

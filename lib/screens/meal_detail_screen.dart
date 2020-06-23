@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../dummy_data.dart';
 
@@ -87,7 +86,12 @@ class MealDetailScreen extends StatelessWidget{
         ],
         ),
       ),
-
+     floatingActionButton: FloatingActionButton(
+       child: Icon(Icons.delete),
+       onPressed: (){
+         Navigator.of(context).pop(mealId);       // pops top element or screen in stack
+       },
+     ),
     );
     }
 }
