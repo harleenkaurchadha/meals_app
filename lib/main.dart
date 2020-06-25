@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
     'vegetarian': false,
   };
   List<Meal> _availableMeals= DUMMY_MEALS;
-//  List<Meal> _favouriteMeals = [];
+  List<Meal> _favouriteMeals = [];
 
   void _setFilters(Map<String, bool> filterData){
    setState(() {
@@ -52,9 +52,25 @@ class _MyAppState extends State<MyApp> {
    });
   }
    
-//  void _toggleFavourite(String mealId){    // to turn a meal into fav or unfav it & add it to list
-//    final existingIndex= _favouriteMeals.indexWhere(());   // check if element is part of list & returns index
-//  }
+  void _toggleFavourite(String mealId){    // to turn a meal into fav or unfav it & add it to list
+    final existingIndex= _favouriteMeals.indexWhere((meal) =>        // check if element is part of list & returns index
+    meal.id== mealId);
+    if(existingIndex >=0)  // if meal is there then we will remove that
+      {
+        setState(() {
+          _favouriteMeals.removeAt(existingIndex);
+       });
+      }
+    else{
+      setState(() {
+        _favouriteMeals.add(DUMMY_MEALS.firstWhere((meal) => meal.id == mealId));
+      });
+    }
+  }
+
+  bool _isMealFavourite(String id){
+    return _favouriteMeals.any((meal) => meal.id == id);
+  }
   @override
   Widget build(BuildContext context){
     return MaterialApp(
@@ -84,9 +100,9 @@ class _MyAppState extends State<MyApp> {
       initialRoute: '/',   // to make sure by default is home route
 //      home: CategoriesScreen(),
       routes: {                   //list of all available page routing for lean code
-        '/' : (ctx) => TabsScreen(),
+        '/' : (ctx) => TabsScreen(_favouriteMeals),
         CategoryMealsScreen.routeName : (ctx) => CategoryMealsScreen(_availableMeals),             //screen : creation function for that screen
-        MealDetailScreen.routeName : (ctx) => MealDetailScreen(),
+        MealDetailScreen.routeName : (ctx) => MealDetailScreen(_toggleFavourite,_isMealFavourite),
         FiltersScreen.routeName: (ctx) => FiltersScreen(_filters,_setFilters),
       },
     );
